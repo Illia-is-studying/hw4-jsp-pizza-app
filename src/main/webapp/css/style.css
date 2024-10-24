@@ -1,0 +1,116 @@
+.pizza-container {
+    width: 75%;
+    margin: 20px auto;
+    position: relative;
+}
+
+.pizza-base {
+    width: 100%;
+    padding-bottom: 100%;
+    background-color: #F4A460;
+    border-radius: 50%;
+    position: relative;
+}
+
+.pizza-edge {
+    width: 85%;
+    padding-bottom: 85%;
+    background-color: #FF6347;
+    border-radius: 50%;
+    position: absolute;
+    top: 7.5%;
+    left: 7.5%;
+}
+
+.cheese {
+    width: 80%;
+    padding-bottom: 80%;
+    background-color: #FFD700;
+    border-radius: 50%;
+    position: absolute;
+    top: 10%;
+    left: 10%;
+}
+
+.basil {
+    width: 10%;
+    padding-bottom: 7%;
+    background-color: #228B22;
+    position: absolute;
+    border-radius: 50%;
+}
+
+.ham {
+    width: 12%;
+    height: 6%;
+    background-color: #ff8b9e;
+    position: absolute;
+    border-radius: 10px;
+    top: 30%;
+    left: 35%;
+    transform: rotate(45deg);
+}
+
+.pineapple {
+    width: 8%;
+    height: 8%;
+    background-color: #FFFF66;
+    border-radius: 20% 20% 10% 10%;
+    position: absolute;
+}
+
+.cheese-spot {
+    width: 20%;
+    height: 15%;
+    border-radius: 50%;
+    position: absolute;
+}
+.gorgonzola { background-color: #5F9EA0; }
+.parmesan { background-color: #FFFACD; }
+.ricotta { background-color: #FFFFFF; }
+
+.olive {
+    width: 4%;
+    height: 4%;
+    background-color: black;
+    border-radius: 50%;
+    position: absolute;
+    top: 45%;
+    left: 45%;
+}
+
+.artichoke {
+    width: 8%;
+    height: 10%;
+    background-color: #98FB98;
+    clip-path: polygon(50% 0%, 10% 100%, 90% 100%);
+    position: absolute;
+    top: 60%;
+    left: 40%;
+    border-radius: 5px;
+}
+
+.mushroom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 1%;
+    height: 3%;
+}
+
+.cap {
+    width: 100%;
+    height: 50%;
+    background-color: #aa9988;
+    border-radius: 50% 50% 0 0;
+    position: relative;
+}
+
+.stem {
+    width: 40%;
+    height: 50%;
+    background-color: #aa9988;
+    border-radius: 0 0 20% 20%;
+    margin-top: -5%;
+}
+
