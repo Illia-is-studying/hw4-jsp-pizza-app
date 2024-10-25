@@ -9,7 +9,8 @@ public class ListConverterService {
         if (testObj instanceof Ingredient) {
             testObj = (T) new Ingredient(
                     Long.parseLong(list.get(0)),
-                    list.get(1));
+                    list.get(2),
+                    Integer.parseInt(list.get(1)));
         }
 
         return testObj;

@@ -33,16 +33,16 @@
 }
 
 .basil {
-    width: 10%;
-    padding-bottom: 7%;
+    width: 15%;
+    padding-bottom: 10%;
     background-color: #228B22;
     position: absolute;
     border-radius: 50%;
 }
 
 .ham {
-    width: 12%;
-    height: 6%;
+    width: 15%;
+    height: 7%;
     background-color: #ff8b9e;
     position: absolute;
     border-radius: 10px;
@@ -65,13 +65,22 @@
     border-radius: 50%;
     position: absolute;
 }
-.gorgonzola { background-color: #5F9EA0; }
-.parmesan { background-color: #FFFACD; }
-.ricotta { background-color: #FFFFFF; }
 
-.olive {
-    width: 4%;
-    height: 4%;
+.gorgonzola {
+    background-color: #5F9EA0;
+}
+
+.parmesan {
+    background-color: #FFFACD;
+}
+
+.ricotta {
+    background-color: #FFFFFF;
+}
+
+.olives {
+    width: 6%;
+    height: 6%;
     background-color: black;
     border-radius: 50%;
     position: absolute;
@@ -79,9 +88,21 @@
     left: 45%;
 }
 
+.olives::before {
+    content: "";
+    display: block;
+    width: 50%;
+    height: 50%;
+    background-color: #FFD700;
+    border-radius: 50%;
+    position: absolute;
+    top: 25%;
+    left: 25%;
+}
+
 .artichoke {
-    width: 8%;
-    height: 10%;
+    width: 10%;
+    height: 12%;
     background-color: #98FB98;
     clip-path: polygon(50% 0%, 10% 100%, 90% 100%);
     position: absolute;
@@ -94,11 +115,12 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 1%;
-    height: 3%;
+    width: 10%;
+    height: 15%;
+    position: absolute;
 }
 
-.cap {
+.mushroom .cap {
     width: 100%;
     height: 50%;
     background-color: #aa9988;
@@ -106,7 +128,7 @@
     position: relative;
 }
 
-.stem {
+.mushroom .stem {
     width: 40%;
     height: 50%;
     background-color: #aa9988;
@@ -114,3 +136,32 @@
     margin-top: -5%;
 }
 
+.caper {
+    width: 5%;
+    height: 5%;
+    background-color: #556B2F;
+    border-radius: 50%;
+    position: absolute;
+}
+
+.caper::before {
+    content: "";
+    position: absolute;
+    width: 20%;
+    height: 20%;
+    background-color: #6B8E23;
+    border-radius: 50%;
+    top: 30%;
+    left: 20%;
+}
+
+.caper::after {
+    content: "";
+    position: absolute;
+    width: 25%;
+    height: 25%;
+    background-color: #2E8B57;
+    border-radius: 50%;
+    top: 50%;
+    left: 60%;
+}

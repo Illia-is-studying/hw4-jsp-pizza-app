@@ -20,6 +20,7 @@ public class DatabaseService {
 
         String createIngredientTable = "CREATE TABLE ingredient ("
                 + "id INT AUTO_INCREMENT PRIMARY KEY, "
+                + "quantity INT, "
                 + "name VARCHAR(255) NOT NULL);";
 
         String createIngredientPizzaTable = "CREATE TABLE ingredient_pizza ("
@@ -52,9 +53,9 @@ public class DatabaseService {
                 + "FOREIGN KEY (ingredient_id) REFERENCES ingredient(id), "
                 + "FOREIGN KEY (order_id) REFERENCES orders (id));";
 
-        String fillIngredientTable = "INSERT INTO ingredient (name) VALUES "
-                + "('basil'),('pineapple'),('ham'),('gorgonzola'),('parmesan'),"
-                + "('ricotta'),('artichoke'),('olives'),('mushrooms'),('capers');";
+        String fillIngredientTable = "INSERT INTO ingredient (quantity,name) VALUES "
+                + "(2,'basil'),(4,'pineapple'),(3,'ham'),(1,'gorgonzola'),(1,'parmesan'),"
+                + "(1,'ricotta'),(3,'artichoke'),(3,'olives'),(2,'mushrooms'),(2,'capers');";
 
         String fillPizzaTable = "INSERT INTO pizza (name) VALUES "
                 + "('Margarita'),('Capricciosa'),('Four Cheese'),('Hawaiian');";

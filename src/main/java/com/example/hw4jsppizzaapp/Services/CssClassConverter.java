@@ -13,6 +13,8 @@ public class CssClassConverter {
                 return "cheese-spot parmesan";
             case "mushrooms":
                 return "mushroom";
+            case "capers":
+                return "caper";
             default:
                 return name;
         }

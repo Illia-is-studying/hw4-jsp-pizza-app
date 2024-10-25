@@ -1,7 +1,6 @@
 package com.example.hw4jsppizzaapp.Services;
 
 import com.example.hw4jsppizzaapp.Models.Ingredient;
-import com.example.hw4jsppizzaapp.Models.Pizza;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +36,20 @@ public class IngredientService {
             Ingredient ingredient = getIngredientById(Long.parseLong(ingredientId.get(0)));
 
             ingredients.add(ingredient);
+        }
+
+        return ingredients;
+    }
+
+    public List<Ingredient> getAllIngredients() {
+        sql = "SELECT * FROM ingredient";
+        List<Ingredient> ingredients = new ArrayList<>();
+
+        List<List<String>> entities = databaseService.getAllEntitiesBySql(sql);
+        for (List<String> entity : entities) {
+            Ingredient ingredient = ListConverterService.getObjectByListString(entity, new Ingredient());
+
+            ingredients.add(ListConverterService.getObjectByListString(entity, ingredient));
         }
 
         return ingredients;

@@ -71,7 +71,8 @@ public class PizzaViewModel {
         for (Ingredient ingredient : ingredients) {
             String ingredientName = ingredient.getName();
 
-            List<Position> positions = CalculatePositionService.getPositions(8);
+            List<Position> positions = CalculatePositionService
+                    .getPositions(3 * ingredient.getQuantity());
 
             ingredientsPosition.put(ingredient.getName(), positions);
         }

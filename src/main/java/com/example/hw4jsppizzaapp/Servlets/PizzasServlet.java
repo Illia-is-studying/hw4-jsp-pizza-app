@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(value = "/")
+@WebServlet(name = "pizzas", value = "/")
 public class PizzasServlet extends HttpServlet {
     private PizzaService pizzaService;
 

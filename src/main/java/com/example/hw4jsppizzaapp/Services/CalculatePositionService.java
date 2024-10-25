@@ -11,8 +11,8 @@ public class CalculatePositionService {
 
     static {
         random = new Random();
-        min = 15;
-        max = 75;
+        min = 10;
+        max = 80;
     }
 
     public static List<Position> getPositions(int numberOfPositions) {
