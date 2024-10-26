@@ -13,6 +13,7 @@ import java.util.List;
 @Setter
 public class Pizza {
     private long id;
+    private double price;
     private String name;
     private List<Ingredient> ingredients;
 

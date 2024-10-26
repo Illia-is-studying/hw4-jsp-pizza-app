@@ -5,47 +5,28 @@ import com.example.hw4jsppizzaapp.Models.Pizza;
 import com.example.hw4jsppizzaapp.Models.Position;
 import com.example.hw4jsppizzaapp.Services.CalculatePositionService;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 
 public class PizzaViewModel {
-    private long pizzaId;
-    private String pizzaName;
+    private Pizza pizza;
     private String pizzaIngredientsLine;
-    private List<Ingredient> pizzaIngredientsList;
     private HashMap<String, List<Position>> ingredientsPosition;
 
     public PizzaViewModel(Pizza pizza) {
-        pizzaId = pizza.getId();
-        pizzaName = pizza.getName();
-        pizzaIngredientsList = pizza.getIngredients();
+        this.pizza = pizza;
         ingredientsPosition = new HashMap<>();
-        setPizzaIngredientsLine(pizzaIngredientsList);
-        setIngredientsPosition(pizzaIngredientsList);
+        setPizzaIngredientsLine(pizza.getIngredients());
+        setIngredientsPosition(pizza.getIngredients());
     }
 
-    public long getPizzaId() {
-        return pizzaId;
+    public Pizza getPizza() {
+        return pizza;
     }
 
-    public void setPizzaId(long pizzaId) {
-        this.pizzaId = pizzaId;
-    }
-
-    public String getPizzaName() {
-        return pizzaName;
-    }
-
-    public void setPizzaName(String pizzaName) {
-        this.pizzaName = pizzaName;
-    }
-
-    public void setPizzaIngredientsList(List<Ingredient> pizzaIngredientsList) {
-        this.pizzaIngredientsList = pizzaIngredientsList;
-    }
-
-    public List<Ingredient> getPizzaIngredientsList() {
-        return pizzaIngredientsList;
+    public void setPizza(Pizza pizza) {
+        this.pizza = pizza;
     }
 
     public String getPizzaIngredientsLine() {
@@ -53,7 +34,8 @@ public class PizzaViewModel {
     }
 
     public void setPizzaIngredientsLine(List<Ingredient> pizzaIngredients) {
-        StringBuilder ingredients = new StringBuilder("Ingredients: ");
+        StringBuilder ingredients = new StringBuilder();
+        ingredients.append("marinara, cheese, ");
 
         for (Ingredient ingredient : pizzaIngredients) {
             ingredients.append(ingredient.getName() + ", ");

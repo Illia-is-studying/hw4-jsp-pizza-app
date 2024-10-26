@@ -27,10 +27,12 @@ public class PizzaService {
                     "WHERE pizza_id = " + pizzaList.get(0) + ";";
             List<List<String>> ingredientIds = databaseService.getAllEntitiesBySql(sql);
             List<Ingredient> ingredients = ingredientService.getAllIngredientsByIds(ingredientIds);
+            ingredients.remove(ingredients.get(0)); //Видаляє перший інгредієнт(той що за замовченням).
 
             Pizza pizza = new Pizza(
                     Long.parseLong(pizzaList.get(0)),
-                    pizzaList.get(1),
+                    Double.parseDouble(pizzaList.get(1)),
+                    pizzaList.get(2),
                     ingredients);
 
             pizzas.add(pizza);
@@ -39,7 +41,7 @@ public class PizzaService {
         return pizzas;
     }
 
-    public String savePizza(String pizzaName, String[] ingredientsId) {
+    public String savePizza(String pizzaName, double price, String[] ingredientsId) {
         if (!checkPizzaNameExist(pizzaName)) {
             return "A pizza by that name already exists.\nTry another one...";
         }
@@ -48,7 +50,7 @@ public class PizzaService {
             return "Pizza with these ingredients already exists.\nTry another one...";
         }
 
-        sql = "INSERT INTO pizza (name) VALUES ('" + pizzaName + "');";
+        sql = "INSERT INTO pizza (name,price) VALUES ('" + pizzaName + "',"+price+");";
         databaseService.executeUpdateBySql(sql);
 
         sql = "SELECT id FROM pizza WHERE name='" + pizzaName + "';";

@@ -21,20 +21,7 @@
             <h1 class="text-success-emphasis">La pizza di Ilyusha</h1>
         </div>
         <div class="col d-flex justify-content-center mb-3">
-            <%
-                int count = 4;
-                for (PizzaViewModel pizza : pizzas) {
-                request.setAttribute("pizza", pizza);
-                    if (count == 0) {
-                        count = 4;
-            %></div>
-        <div class="col d-flex justify-content-center mb-3"><%
-            }
-            count--;
-        %>
-            <jsp:include page="pizza-card.jsp"></jsp:include>
-            <% } %>
-            <div class="card mx-2" style="width: 18rem;">
+            <div class="card border-warning mx-2" style="width: 18rem;">
                 <div class="d-grid text-center">
                     <a href="pizza-constructor" class="btn btn-outline-warning border border-0">
                         <svg xmlns="http://www.w3.org/2000/svg" width="79%" height="79%" fill="currentColor"
@@ -53,7 +40,25 @@
                         Create Pizza
                     </a>
                 </div>
+                <div class="card-footer text-center">
+                    <strong class="text-body-secondary text-primary">
+                        $ ???
+                    </strong>
+                </div>
             </div>
+            <%
+                int count = 3;
+                for (PizzaViewModel pizza : pizzas) {
+                request.setAttribute("pizza", pizza);
+                    if (count == 0) {
+                        count = 4;
+            %></div>
+        <div class="col d-flex justify-content-center mb-3"><%
+            }
+            count--;
+        %>
+            <jsp:include page="pizza-card.jsp"></jsp:include>
+            <% } %>
         </div>
     </div>
 </div>

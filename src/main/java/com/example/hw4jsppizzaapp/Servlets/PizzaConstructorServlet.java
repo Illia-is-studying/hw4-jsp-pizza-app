@@ -27,14 +27,12 @@ public class PizzaConstructorServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String errorMessage = (String) request.getAttribute("errorMessage");
         List<Ingredient> ingredients = ingredientService.getAllIngredients();
 
         PizzaViewModel pizzaViewModel = new PizzaViewModel(
-                new Pizza(0, "",  ingredientService.getAllIngredients()));
+                new Pizza(0, 5.0, "", ingredientService.getAllIngredients()));
 
         request.setAttribute("pizza", pizzaViewModel);
-        request.setAttribute("errorMessage", errorMessage);
         request.getRequestDispatcher("pizza-constructor.jsp").forward(request, response);
     }
 
@@ -42,16 +40,28 @@ public class PizzaConstructorServlet extends HttpServlet {
             throws ServletException, IOException {
         String pizzaName = request.getParameter("pizzaName");
         String[] ingredientsArray = request.getParameterValues("ingredients");
+        String resultMessage = "";
 
-        String resultMessage = pizzaService.savePizza(pizzaName, ingredientsArray);
+        String priceParam = request.getParameter("price");
+        try {
+            double price = Double.parseDouble(priceParam);
 
-        if(resultMessage.equals("ok")) {
-            response.sendRedirect(request.getContextPath() + "/");
-            return;
+            if(price < 5.0) {
+                price = 5.0;
+            }
+
+            resultMessage = pizzaService.savePizza(pizzaName, price, ingredientsArray);
+
+            if (resultMessage.equals("ok")) {
+                response.sendRedirect(request.getContextPath() + "/");
+                return;
+            }
+        } catch (NumberFormatException ex) {
+            resultMessage = "The 'Price $' field is filled incorrectly.\nFor example of correct entry: 7.35";
         }
 
         PizzaViewModel pizzaViewModel = new PizzaViewModel(
-                new Pizza(0, "", ingredientService.getAllIngredients()));
+                new Pizza(0, 5.0, pizzaName, ingredientService.getAllIngredients()));
 
         request.setAttribute("pizza", pizzaViewModel);
         request.setAttribute("errorMessage", resultMessage);

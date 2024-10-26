@@ -16,7 +16,7 @@
     <title>Pizzas</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-        <link rel="stylesheet" href="resources/css/style.css">
+    <link rel="stylesheet" href="resources/css/style.css">
     <style>
         .hidden {
             display: none;
@@ -31,15 +31,18 @@
                 <div class="pizza-base">
                     <div class="pizza-edge"></div>
                     <div class="cheese">
+
                         <%
-                            for (Ingredient ingredient : pizza.getPizzaIngredientsList()) {
-                                List<Position> positions = pizza.getIngredientsPosition().get(ingredient.getName());
-                                String cssClass = CssClassConverter.convertStringToCssClass(ingredient.getName());
+                            List<Ingredient> ingredients = pizza.getPizza().getIngredients();
+                            for (int i = 1; i < ingredients.size(); i++) {
+                                String ingredientName = ingredients.get(i).getName();
+                                List<Position> positions = pizza.getIngredientsPosition().get(ingredientName);
+                                String cssClass = CssClassConverter.convertStringToCssClass(ingredientName);
                         %>
                         <div id="more-<%=cssClass%>" class="hidden">
                             <%
                                 for (Position position : positions) {
-                                    if (ingredient.getName().equals("mushrooms")) {
+                                    if (ingredients.get(i).getName().equals("mushrooms")) {
                             %>
                             <div class="<%=cssClass%>"
                                  style="<%="left: "+position.getLeft()+"%;" +
@@ -68,7 +71,7 @@
         <div class="col-6">
             <% if (errorMessage != null) { %>
             <div class="mb-3">
-                <div class="alert alert-success" role="alert">
+                <div class="alert alert-warning" role="alert">
                     <%=errorMessage%>
                 </div>
             </div>
@@ -76,16 +79,35 @@
             <form method="post">
                 <div class="mb-3">
                     <label for="pizzaName" class="form-label">Name of Pizza</label>
-                    <input type="text" name="pizzaName" id="pizzaName" class="form-control" required>
+                    <input type="text" name="pizzaName" id="pizzaName" class="form-control"
+                           value="<%=pizza.getPizza().getName()%>" required>
+                </div>
+                <div class="mb-3">
+                    <label for="price" class="form-label">Price $</label>
+                    <input type="text" name="price" id="price" class="form-control"
+                           value="<%=pizza.getPizza().getPrice()%>" required>
                 </div>
                 <div class="mb-3">
                     <label class="from-label">Ingredients:</label>
                 </div>
                 <div class="mb-3">
                     <%
+                        Ingredient defaultIngredient = ingredients.get(0);
+                    %>
+                    <div class="mb-3">
+                        <input type="hidden" name="ingredients" value="<%=defaultIngredient.getId()%>">
+                        <input type="checkbox" class="btn-check"
+                               id="<%=defaultIngredient.getName()%>" name="ingredients"
+                               autocomplete="off" checked disabled>
+                        <label class="btn btn-secondary" for="<%=defaultIngredient.getName()%>">
+                            <%=defaultIngredient.getName()%>
+                        </label>
+                    </div>
+                    <%
                         int count = 3;
-                        for (Ingredient ingredient : pizza.getPizzaIngredientsList()) {
-                            String cssClass = CssClassConverter.convertStringToCssClass(ingredient.getName());
+                        for (int i = 1; i < ingredients.size(); i++) {
+                            String ingredientName = ingredients.get(i).getName();
+                            String cssClass = CssClassConverter.convertStringToCssClass(ingredientName);
                             if (count == 0) {
                                 count = 3;
                     %></div>
@@ -94,17 +116,18 @@
                     count--;
                 %>
                     <input type="checkbox" class="btn-check toggle-checkbox"
-                           id="<%=cssClass%>" name="ingredients" value="<%=ingredient.getId()%>" autocomplete="off"
+                           id="<%=cssClass%>" name="ingredients" value="<%=ingredients.get(i).getId()%>"
+                           autocomplete="off"
                            data-target="more-<%=cssClass%>">
-                    <label class="btn btn-outline-dark" for="<%=cssClass%>"><%=ingredient.getName()%>
+                    <label class="btn btn-outline-dark" for="<%=cssClass%>"><%=ingredients.get(i).getName()%>
                     </label>
                     <%
                         }
                     %>
                 </div>
-                <input type="submit" class="btn btn-primary" value="Save">
+                <input type="submit" class="btn btn-outline-primary" value="Create">
                 <span> | </span>
-                <a href="<%=request.getContextPath()%>" class="btn btn-secondary">Go Back</a>
+                <a href="<%=request.getContextPath()%>" class="btn btn-outline-secondary">Go Back</a>
             </form>
         </div>
     </div>

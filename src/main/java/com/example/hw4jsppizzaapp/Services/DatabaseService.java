@@ -16,6 +16,7 @@ public class DatabaseService {
     private static void initializeAllTables() {
         String createPizzaTable = "CREATE TABLE pizza ("
                 + "id INT AUTO_INCREMENT PRIMARY KEY, "
+                + "price DECIMAL(10, 2) NOT NULL, "
                 + "name VARCHAR(255) NOT NULL);";
 
         String createIngredientTable = "CREATE TABLE ingredient ("
@@ -54,17 +55,17 @@ public class DatabaseService {
                 + "FOREIGN KEY (order_id) REFERENCES orders (id));";
 
         String fillIngredientTable = "INSERT INTO ingredient (quantity,name) VALUES "
-                + "(2,'basil'),(4,'pineapple'),(3,'ham'),(1,'gorgonzola'),(1,'parmesan'),"
-                + "(1,'ricotta'),(3,'artichoke'),(3,'olives'),(2,'mushrooms'),(2,'capers');";
+                + "(0,'marinara and cheese'),(3,'olives'),(4,'pineapple'),(3,'ham'),(1,'gorgonzola'),(1,'parmesan'),"
+                + "(1,'ricotta'),(3,'artichoke'),(2,'basil'),(2,'mushrooms'),(2,'capers');";
 
-        String fillPizzaTable = "INSERT INTO pizza (name) VALUES "
-                + "('Margarita'),('Capricciosa'),('Four Cheese'),('Hawaiian');";
+        String fillPizzaTable = "INSERT INTO pizza (name,price) VALUES "
+                + "('Margarita',10.99),('Capricciosa',14.50),('Hawaiian',12.70),('Four Cheese',13.25);";
 
         String fillIngredientPizzaTable = "INSERT INTO ingredient_pizza (pizza_id, ingredient_id) VALUES "
-                + "(1, 1),"
-                + "(2, 3),(2, 7),(2, 8),(2, 9),"
-                + "(3, 4),(3, 5),(3, 6),"
-                + "(4, 2),(4, 3),(4, 8);";
+                + "(1, 1),(1, 9),"
+                + "(2, 1),(2, 2),(2, 4),(2, 8),(2, 10),"
+                + "(3, 1),(3, 2),(3, 3),(3, 4),"
+                + "(4, 1),(4, 5),(4, 6),(4, 7);";
 
         tableInitialization(createPizzaTable, fillPizzaTable, "pizza");
         tableInitialization(createIngredientTable, fillIngredientTable, "ingredient");
