@@ -6,5 +6,8 @@
     <servlet-mapping>
         <servlet-name>default</servlet-name>
         <url-pattern>/resources/css/*</url-pattern>
+        <url-pattern>/resources/js/*</url-pattern>
+<!--        <url-pattern>/jsp-include-files/*</url-pattern>-->
+<!--        <url-pattern>/pages/*</url-pattern>-->
     </servlet-mapping>
 </web-app>

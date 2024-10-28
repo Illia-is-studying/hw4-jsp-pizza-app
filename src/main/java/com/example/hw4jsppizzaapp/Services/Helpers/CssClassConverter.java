@@ -1,4 +1,4 @@
-package com.example.hw4jsppizzaapp.Services;
+package com.example.hw4jsppizzaapp.Services.Helpers;
 
 public class CssClassConverter {
     public static String convertStringToCssClass(String name) {

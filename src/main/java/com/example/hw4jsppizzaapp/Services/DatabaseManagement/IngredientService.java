@@ -1,6 +1,7 @@
-package com.example.hw4jsppizzaapp.Services;
+package com.example.hw4jsppizzaapp.Services.DatabaseManagement;
 
 import com.example.hw4jsppizzaapp.Models.Ingredient;
+import com.example.hw4jsppizzaapp.Services.Helpers.ListConverterService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,14 @@ public class IngredientService {
         return ingredient;
     }
 
+    public List<Ingredient> getIngredientByPizzaId(long pizzaId) {
+        sql = "SELECT ingredient_id FROM ingredient_pizza " +
+                "WHERE pizza_id = " + pizzaId + ";";
+        List<List<String>> ingredientIds = databaseService.getAllEntitiesBySql(sql);
+
+        return getAllIngredientsByIds(ingredientIds);
+    }
+
     public List<Ingredient> getAllIngredientsByIds(List<List<String>> ids) {
         List<Ingredient> ingredients = new ArrayList<>();
 
@@ -36,6 +45,10 @@ public class IngredientService {
             Ingredient ingredient = getIngredientById(Long.parseLong(ingredientId.get(0)));
 
             ingredients.add(ingredient);
+        }
+
+        if(ingredients.get(0).getId() == 1) {
+            ingredients.remove(ingredients.get(0));//Видаляє перший інгредієнт(той що за замовченням).
         }
 
         return ingredients;

@@ -17,6 +17,12 @@ public class Pizza {
     private String name;
     private List<Ingredient> ingredients;
 
+    public Pizza(long id, double price, String name) {
+        this.id = id;
+        this.price = price;
+        this.name = name;
+    }
+
     public void addIngredient(Ingredient ingredient) {
         this.ingredients.add(ingredient);
     }

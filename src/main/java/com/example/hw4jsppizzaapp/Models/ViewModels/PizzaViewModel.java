@@ -3,13 +3,13 @@ package com.example.hw4jsppizzaapp.Models.ViewModels;
 import com.example.hw4jsppizzaapp.Models.Ingredient;
 import com.example.hw4jsppizzaapp.Models.Pizza;
 import com.example.hw4jsppizzaapp.Models.Position;
-import com.example.hw4jsppizzaapp.Services.CalculatePositionService;
+import com.example.hw4jsppizzaapp.Services.Helpers.CalculatePositionService;
 
-import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 
 public class PizzaViewModel {
+    private long modelId;
     private Pizza pizza;
     private String pizzaIngredientsLine;
     private HashMap<String, List<Position>> ingredientsPosition;
@@ -19,6 +19,19 @@ public class PizzaViewModel {
         ingredientsPosition = new HashMap<>();
         setPizzaIngredientsLine(pizza.getIngredients());
         setIngredientsPosition(pizza.getIngredients());
+    }
+
+    public PizzaViewModel(Pizza pizza, long modelId) {
+        this(pizza);
+        this.modelId = modelId;
+    }
+
+    public long getModelId() {
+        return modelId;
+    }
+
+    public void setModelId(long modelId) {
+        this.modelId = modelId;
     }
 
     public Pizza getPizza() {
@@ -38,7 +51,7 @@ public class PizzaViewModel {
         ingredients.append("marinara, cheese, ");
 
         for (Ingredient ingredient : pizzaIngredients) {
-            ingredients.append(ingredient.getName() + ", ");
+            ingredients.append(ingredient.getName()).append(", ");
         }
 
         String ingredientsLine = ingredients.toString();
@@ -49,7 +62,12 @@ public class PizzaViewModel {
         return ingredientsPosition;
     }
 
-    public void setIngredientsPosition(List<Ingredient> ingredients) {
+    public void setIngredientsPosition(List<Ingredient> ingredients)
+    {
+        setIngredientsPosition(ingredients, 1);
+    }
+
+    public void setIngredientsPosition(List<Ingredient> ingredients, int quantity) {
         for (Ingredient ingredient : ingredients) {
             String ingredientName = ingredient.getName();
 

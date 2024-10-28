@@ -1,4 +1,4 @@
-package com.example.hw4jsppizzaapp.Services;
+package com.example.hw4jsppizzaapp.Services.DatabaseManagement;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -43,15 +43,14 @@ public class DatabaseService {
                 + "id INT AUTO_INCREMENT PRIMARY KEY, "
                 + "user_id INT, "
                 + "pizza_id INT, "
+                + "quantity INT NOT NULL, "
                 + "FOREIGN KEY (user_id) REFERENCES user_info(id), "
                 + "FOREIGN KEY (pizza_id) REFERENCES pizza(id));";
 
         String createToppingsTable = "CREATE TABLE toppings ("
                 + "id INT AUTO_INCREMENT PRIMARY KEY, "
-                + "ingredient_id INT, "
+                + "ingredient_name VARCHAR(255) NOT NULL, "
                 + "order_id INT, "
-                + "quantity INT NOT NULL, "
-                + "FOREIGN KEY (ingredient_id) REFERENCES ingredient(id), "
                 + "FOREIGN KEY (order_id) REFERENCES orders (id));";
 
         String fillIngredientTable = "INSERT INTO ingredient (quantity,name) VALUES "

@@ -17,9 +17,10 @@
 <body>
 <div class="container mt-3">
     <div class="row">
-        <div class="col-12 text-center mb-3">
-            <h1 class="text-success-emphasis">La pizza di Ilyusha</h1>
-        </div>
+        <jsp:include page="/header-cart.jsp">
+            <jsp:param name="path" value="toppings"/>
+        </jsp:include>
+
         <div class="col d-flex justify-content-center mb-3">
             <div class="card border-warning mx-2" style="width: 18rem;">
                 <div class="d-grid text-center">
@@ -49,7 +50,7 @@
             <%
                 int count = 3;
                 for (PizzaViewModel pizza : pizzas) {
-                request.setAttribute("pizza", pizza);
+                    request.setAttribute("pizza", pizza);
                     if (count == 0) {
                         count = 4;
             %></div>
@@ -57,10 +58,13 @@
             }
             count--;
         %>
-            <jsp:include page="pizza-card.jsp"></jsp:include>
-            <% } %>
+            <jsp:include page="/pizza-card.jsp"></jsp:include>
+            <%
+                }
+            %>
         </div>
     </div>
 </div>
+<script src="resources/js/script.js"></script>
 </body>
 </html>

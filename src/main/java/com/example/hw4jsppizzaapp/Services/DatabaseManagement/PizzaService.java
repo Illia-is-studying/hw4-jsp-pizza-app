@@ -1,7 +1,8 @@
-package com.example.hw4jsppizzaapp.Services;
+package com.example.hw4jsppizzaapp.Services.DatabaseManagement;
 
 import com.example.hw4jsppizzaapp.Models.Ingredient;
 import com.example.hw4jsppizzaapp.Models.Pizza;
+import com.example.hw4jsppizzaapp.Services.Helpers.ListConverterService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,18 +23,9 @@ public class PizzaService {
         sql = "SELECT * FROM pizza";
         List<List<String>> pizzasListList = databaseService.getAllEntitiesBySql(sql);
 
-        for (List<String> pizzaList : pizzasListList) {
-            sql = "SELECT ingredient_id FROM ingredient_pizza " +
-                    "WHERE pizza_id = " + pizzaList.get(0) + ";";
-            List<List<String>> ingredientIds = databaseService.getAllEntitiesBySql(sql);
-            List<Ingredient> ingredients = ingredientService.getAllIngredientsByIds(ingredientIds);
-            ingredients.remove(ingredients.get(0)); //Видаляє перший інгредієнт(той що за замовченням).
-
-            Pizza pizza = new Pizza(
-                    Long.parseLong(pizzaList.get(0)),
-                    Double.parseDouble(pizzaList.get(1)),
-                    pizzaList.get(2),
-                    ingredients);
+        for (List<String> entity : pizzasListList) {
+            Pizza pizza = ListConverterService.getObjectByListString(entity, new Pizza());
+            pizza.setIngredients(ingredientService.getIngredientByPizzaId(pizza.getId()));
 
             pizzas.add(pizza);
         }
@@ -41,21 +33,43 @@ public class PizzaService {
         return pizzas;
     }
 
+    public Pizza getPizzaById(long id) {
+        sql = "SELECT * FROM pizza WHERE id = " + id;
+        List<List<String>> pizzaListList = databaseService.getAllEntitiesBySql(sql);
+        List<String> entity = pizzaListList.get(0);
+
+        Pizza pizza = ListConverterService.getObjectByListString(entity, new Pizza());
+        pizza.setIngredients(ingredientService.getIngredientByPizzaId(pizza.getId()));
+
+        return pizza;
+    }
+
+    public void deletePizzaById(long id) {
+        if (checkPizzaIdExist(id)) {
+            sql = "DELETE FROM ingredient_pizza WHERE pizza_id = " + id;
+            databaseService.executeUpdateBySql(sql);
+            sql = "DELETE FROM pizza WHERE id = " + id;
+            databaseService.executeUpdateBySql(sql);
+        } else {
+            System.out.println("The passed pizza ID = " + id + " was not found.");
+        }
+    }
+
     public String savePizza(String pizzaName, double price, String[] ingredientsId) {
-        if (!checkPizzaNameExist(pizzaName)) {
+        if (isPizzaNameExist(pizzaName)) {
             return "A pizza by that name already exists.\nTry another one...";
         }
 
-        if (!checkPizzaIngredientsExist(ingredientsId)) {
+        if (isPizzaIngredientsExist(ingredientsId)) {
             return "Pizza with these ingredients already exists.\nTry another one...";
         }
 
-        sql = "INSERT INTO pizza (name,price) VALUES ('" + pizzaName + "',"+price+");";
+        sql = "INSERT INTO pizza (name,price) VALUES ('" + pizzaName + "'," + price + ");";
         databaseService.executeUpdateBySql(sql);
 
         sql = "SELECT id FROM pizza WHERE name='" + pizzaName + "';";
         List<List<String>> idList = databaseService.getAllEntitiesBySql(sql);
-        int pizzaId = Integer.parseInt(idList.get(0).get(0));
+        long pizzaId = Long.parseLong(idList.get(0).get(0));
 
         StringBuilder insertIntoIngredientPizzaSql =
                 new StringBuilder("INSERT INTO ingredient_pizza (ingredient_id, pizza_id) VALUES ");
@@ -77,15 +91,23 @@ public class PizzaService {
         return "ok";
     }
 
-    public boolean checkPizzaNameExist(String pizzaName) {
+    public boolean checkPizzaIdExist(long id) {
+        sql = "SELECT * FROM pizza WHERE id = " + id;
+
+        List<List<String>> pizzasListList = databaseService.getAllEntitiesBySql(sql);
+
+        return !pizzasListList.isEmpty();
+    }
+
+    public boolean isPizzaNameExist(String pizzaName) {
         sql = "SELECT * FROM pizza WHERE name='" + pizzaName + "'";
 
         List<List<String>> pizzasListList = databaseService.getAllEntitiesBySql(sql);
 
-        return pizzasListList.isEmpty();
+        return !pizzasListList.isEmpty();
     }
 
-    public boolean checkPizzaIngredientsExist(String[] ingredientsId) {
+    public boolean isPizzaIngredientsExist(String[] ingredientsId) {
         StringBuilder checkIngredientsSql =
                 new StringBuilder("SELECT pizza_id FROM ingredient_pizza " +
                         "JOIN pizza AS p ON p.id = pizza_id");
@@ -108,6 +130,6 @@ public class PizzaService {
 
         List<List<String>> pizzasListList = databaseService.getAllEntitiesBySql(sql);
 
-        return pizzasListList.isEmpty();
+        return !pizzasListList.isEmpty();
     }
 }
