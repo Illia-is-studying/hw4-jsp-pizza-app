@@ -1,8 +1,7 @@
 package com.example.hw4jsppizzaapp.Services.DatabaseManagement;
 
-import com.example.hw4jsppizzaapp.Models.Ingredient;
 import com.example.hw4jsppizzaapp.Models.Pizza;
-import com.example.hw4jsppizzaapp.Services.Helpers.ListConverterService;
+import com.example.hw4jsppizzaapp.Services.Helpers.ListConverter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +23,7 @@ public class PizzaService {
         List<List<String>> pizzasListList = databaseService.getAllEntitiesBySql(sql);
 
         for (List<String> entity : pizzasListList) {
-            Pizza pizza = ListConverterService.getObjectByListString(entity, new Pizza());
+            Pizza pizza = ListConverter.getObjectByListString(entity, new Pizza());
             pizza.setIngredients(ingredientService.getIngredientByPizzaId(pizza.getId()));
 
             pizzas.add(pizza);
@@ -38,7 +37,7 @@ public class PizzaService {
         List<List<String>> pizzaListList = databaseService.getAllEntitiesBySql(sql);
         List<String> entity = pizzaListList.get(0);
 
-        Pizza pizza = ListConverterService.getObjectByListString(entity, new Pizza());
+        Pizza pizza = ListConverter.getObjectByListString(entity, new Pizza());
         pizza.setIngredients(ingredientService.getIngredientByPizzaId(pizza.getId()));
 
         return pizza;

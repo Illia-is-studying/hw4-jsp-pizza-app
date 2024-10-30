@@ -1,8 +1,9 @@
 <%@ page import="com.example.hw4jsppizzaapp.Models.ViewModels.PizzaViewModel" %>
-<%@ page import="com.example.hw4jsppizzaapp.Models.Enums.ToppingPriceEnum" %>
+<%@ page import="com.example.hw4jsppizzaapp.Models.Topping" %>
+<%@ page import="java.util.List" %>
 <%
     PizzaViewModel pizzaViewModel = (PizzaViewModel) request.getAttribute("pizza");
-
+    List<Topping> toppings = (List<Topping>) request.getAttribute("toppings");
 %>
 <div class="card border-warning mx-2" style="width: 18rem;">
     <div class="card-header border-warning">Topping</div>
@@ -16,33 +17,19 @@
     <ul class="list-group list-group-flush">
         <li class="list-group-item d-flex justify-content-between align-items-center">
             <div class="btn-group" role="group">
+                <% for (Topping topping : toppings) { %>
                 <input type="checkbox" class="btn-check" name="pizza<%=pizzaViewModel.getModelId()%>"
-                       id="olives<%=pizzaViewModel.getModelId()%>"
-                       autocomplete="off" value="More Olives"
+                       id="<%=topping.getName() + pizzaViewModel.getModelId()%>"
+                       autocomplete="off" value="<%=topping.getId()%>"
                        onclick="changePrice(this,'<%="price" + pizzaViewModel.getModelId()%>',
-                           <%=ToppingPriceEnum.OLIVES.getValue()%>)">
+                           <%=topping.getPrice()%>)">
                 <label class="btn btn-outline-dark"
-                       for="olives<%=pizzaViewModel.getModelId()%>">
-                    More Olives
+                       for="<%=topping.getName() + pizzaViewModel.getModelId()%>">
+                    <%=topping.getName()%>
                 </label>
-                <input type="checkbox" class="btn-check" name="pizza<%=pizzaViewModel.getModelId()%>"
-                       id="capers<%=pizzaViewModel.getModelId()%>"
-                       autocomplete="off" value="More Capers"
-                       onclick="changePrice(this, '<%="price" + pizzaViewModel.getModelId()%>',
-                           <%=ToppingPriceEnum.CAPERS.getValue()%>)">
-                <label class="btn btn-outline-dark"
-                       for="capers<%=pizzaViewModel.getModelId()%>">
-                    More Capers
-                </label>
-                <input type="checkbox" class="btn-check" name="pizza<%=pizzaViewModel.getModelId()%>"
-                       id="cheese<%=pizzaViewModel.getModelId()%>"
-                       autocomplete="off" value="Extra Cheese"
-                       onclick="changePrice(this, '<%="price" + pizzaViewModel.getModelId()%>',
-                           <%=ToppingPriceEnum.EXTRA_CHEESE.getValue()%>)">
-                <label class="btn btn-outline-dark"
-                       for="cheese<%=pizzaViewModel.getModelId()%>">
-                    Extra Cheese
-                </label>
+                <%
+                    }
+                %>
             </div>
         </li>
     </ul>

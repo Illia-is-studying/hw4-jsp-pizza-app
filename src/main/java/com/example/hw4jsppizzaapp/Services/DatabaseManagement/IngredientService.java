@@ -1,7 +1,7 @@
 package com.example.hw4jsppizzaapp.Services.DatabaseManagement;
 
 import com.example.hw4jsppizzaapp.Models.Ingredient;
-import com.example.hw4jsppizzaapp.Services.Helpers.ListConverterService;
+import com.example.hw4jsppizzaapp.Services.Helpers.ListConverter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,7 @@ public class IngredientService {
 
         try {
             List<String> entity = entities.get(0);
-            ingredient = ListConverterService.getObjectByListString(entity, ingredient);
+            ingredient = ListConverter.getObjectByListString(entity, ingredient);
         } catch (IndexOutOfBoundsException ex) {
             System.out.println(ex.getMessage());
         }
@@ -60,9 +60,9 @@ public class IngredientService {
 
         List<List<String>> entities = databaseService.getAllEntitiesBySql(sql);
         for (List<String> entity : entities) {
-            Ingredient ingredient = ListConverterService.getObjectByListString(entity, new Ingredient());
+            Ingredient ingredient = ListConverter.getObjectByListString(entity, new Ingredient());
 
-            ingredients.add(ListConverterService.getObjectByListString(entity, ingredient));
+            ingredients.add(ingredient);
         }
 
         return ingredients;

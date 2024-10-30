@@ -1,5 +1,5 @@
 function addToCart(pizzaId, pizzaPrice) {
-    fetch("cart", {
+    fetch("cart-session", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

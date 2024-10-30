@@ -43,15 +43,21 @@ public class DatabaseService {
                 + "id INT AUTO_INCREMENT PRIMARY KEY, "
                 + "user_id INT, "
                 + "pizza_id INT, "
-                + "quantity INT NOT NULL, "
                 + "FOREIGN KEY (user_id) REFERENCES user_info(id), "
                 + "FOREIGN KEY (pizza_id) REFERENCES pizza(id));";
 
         String createToppingsTable = "CREATE TABLE toppings ("
                 + "id INT AUTO_INCREMENT PRIMARY KEY, "
                 + "ingredient_name VARCHAR(255) NOT NULL, "
+                + "price DECIMAL(10, 2) NOT NULL"
+                + ");";
+
+        String createOrderToppingsTable = "CREATE TABLE order_toppings ("
                 + "order_id INT, "
-                + "FOREIGN KEY (order_id) REFERENCES orders (id));";
+                + "topping_id INT, "
+                + "FOREIGN KEY (order_id) REFERENCES orders(id), "
+                + "FOREIGN KEY (topping_id) REFERENCES toppings(id)"
+                + ");";
 
         String fillIngredientTable = "INSERT INTO ingredient (quantity,name) VALUES "
                 + "(0,'marinara and cheese'),(3,'olives'),(4,'pineapple'),(3,'ham'),(1,'gorgonzola'),(1,'parmesan'),"
@@ -66,12 +72,18 @@ public class DatabaseService {
                 + "(3, 1),(3, 2),(3, 3),(3, 4),"
                 + "(4, 1),(4, 5),(4, 6),(4, 7);";
 
+        String fillToppingsTable = "INSERT INTO toppings (ingredient_name, price) VALUES "
+                + "('More Olives', 1.5), "
+                + "('More Capers', 2.5), "
+                + "('Extra Cheese', 4.0);";
+
         tableInitialization(createPizzaTable, fillPizzaTable, "pizza");
         tableInitialization(createIngredientTable, fillIngredientTable, "ingredient");
         tableInitialization(createIngredientPizzaTable, fillIngredientPizzaTable, "ingredient_pizza");
+        tableInitialization(createToppingsTable, fillToppingsTable, "toppings");
         tableInitialization(createUserInfoTable, "", "user_info");
         tableInitialization(createOrdersTable, "", "orders");
-        tableInitialization(createToppingsTable, "", "createToppingsTable");
+        tableInitialization(createOrderToppingsTable, "", "order_toppings");
     }
 
     private static void tableInitialization(String createTableSql, String insertInTableSql, String tableName) {
@@ -93,28 +105,6 @@ public class DatabaseService {
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
-    }
-
-    public List<String> getStringsBySql(String sql) {
-        List<String> strings = new ArrayList<>();
-
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-
-            try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD)) {
-                Statement statement = connection.createStatement();
-
-                ResultSet resultSet = statement.executeQuery(sql);
-
-                while (resultSet.next()) {
-                    strings.add(resultSet.getString(1));
-                }
-            }
-        } catch (Exception ex) {
-            System.out.println("\n\n\n" + ex.getMessage() + "\n\n\n");
-        }
-
-        return strings;
     }
 
     public List<List<String>> getAllEntitiesBySql(String sql) {

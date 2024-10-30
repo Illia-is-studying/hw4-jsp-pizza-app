@@ -39,7 +39,7 @@
                 %>
             </div>
             <div class="col-12 d-flex justify-content-center mb-3">
-                <a href="cart" class="btn btn-outline-primary mx-2">Go To Order</a>
+                <input type="submit" class="btn btn-outline-primary mx-2" value="Save and go to order">
                 <a href="<%=request.getContextPath()%>" class="btn btn-outline-secondary mx-2">Back To Pizzas</a>
             </div>
         </form>
