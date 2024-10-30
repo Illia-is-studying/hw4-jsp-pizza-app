@@ -113,21 +113,24 @@ public class CartServlet extends HttpServlet {
         String address = request.getParameter("address");
         String phone = request.getParameter("phone");
 
-        userInfoService.save(firstName, lastName, email, address, phone);
-        long userId = userInfoService.getUserIdByEmail(email);
+        long userId = userInfoService.save(firstName, lastName, email, address, phone);
 
         orderService.saveByPizzaIds(selectedPizzas, userId);
 
         selectedPizzas = new ArrayList<>(new HashSet<>(selectedPizzas));
 
         int toppingCounter = 0;
-        for(int i = 0; i < selectedPizzas.size(); i++) {
-            List<Long> orderIds = orderService.getOrderIdByPizzaIdAndUserId(selectedPizzas.get(i), userId);
+        for (Long selectedPizza : selectedPizzas) {
+            List<Long> orderIds = orderService.getOrderIdByPizzaIdAndUserId(selectedPizza, userId);
 
             for (int j = 0; j < orderIds.size(); j++, toppingCounter++) {
                 Long orderId = orderIds.get(j);
 
                 String[] toppingIdLines = toppings.get(toppingCounter);
+
+                if (toppingIdLines == null) {
+                    continue;
+                }
 
                 for (String toppingIdLine : toppingIdLines) {
                     long toppingId = Long.parseLong(toppingIdLine);

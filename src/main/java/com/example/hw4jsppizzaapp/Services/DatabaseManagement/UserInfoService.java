@@ -10,11 +10,15 @@ public class UserInfoService {
         this.databaseService = new DatabaseService();
     }
 
-    public void save(String firstName, String lastName, String email, String address, String phone) {
-        sql = "INSERT INTO user_info (first_name,last_name,email,delivery_address,phone_number) VALUES " +
-                "('" + firstName + "','" + lastName + "','" + email + "','" + address + "','" + phone + "');";
+    public long save(String firstName, String lastName, String email, String address, String phone) {
+        if(!isUserExist(email, phone)) {
+            sql = "INSERT INTO user_info (first_name,last_name,email,delivery_address,phone_number) VALUES " +
+                    "('" + firstName + "','" + lastName + "','" + email + "','" + address + "','" + phone + "');";
 
-        databaseService.executeUpdateBySql(sql);
+            databaseService.executeUpdateBySql(sql);
+        }
+
+        return getUserIdByEmail(email);
     }
 
     public long getUserIdByEmail(String email) {
@@ -28,5 +32,11 @@ public class UserInfoService {
         }
 
         return id;
+    }
+
+    public boolean isUserExist(String email, String phone) {
+        sql = "SELECT id FROM user_info WHERE email = '" + email + "' OR phone_number = '" + phone + "';";
+        List<List<String>> entities = databaseService.getAllEntitiesBySql(sql);
+        return !entities.isEmpty();
     }
 }

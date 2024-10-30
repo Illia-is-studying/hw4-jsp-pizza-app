@@ -14,9 +14,7 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @WebServlet(value = "/toppings")
 public class ToppingServlet extends HttpServlet {
@@ -35,7 +33,30 @@ public class ToppingServlet extends HttpServlet {
         HttpSession session = request.getSession();
         ArrayList<Long> selectedPizzas = (ArrayList<Long>) session.getAttribute("selectedPizzas");
 
-        if (selectedPizzas == null) {
+        String action = request.getParameter("action");
+        if(action != null && selectedPizzas != null && action.equals("delete")) {
+            String idParam = request.getParameter("id");
+
+            if(idParam != null) {
+                long id = Long.parseLong(idParam);
+
+                Pizza pizza = pizzaService.getPizzaById(id);
+
+                if(pizza.getId() != 0) {
+                    selectedPizzas.remove(id);
+
+                    int totalPizzas = (Integer) session.getAttribute("totalPizzas");
+                    double totalPrice = (Double) session.getAttribute("totalPrice");
+                    totalPrice -= pizza.getPrice();
+
+                    session.setAttribute("totalPizzas", --totalPizzas);
+                    session.setAttribute("totalPrice", totalPrice);
+                    session.setAttribute("selectedPizzas", selectedPizzas);
+                }
+            }
+        }
+
+        if (selectedPizzas == null || selectedPizzas.isEmpty()) {
             response.sendRedirect(request.getContextPath());
             return;
         }

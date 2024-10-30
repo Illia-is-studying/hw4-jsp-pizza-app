@@ -6,7 +6,10 @@
     List<Topping> toppings = (List<Topping>) request.getAttribute("toppings");
 %>
 <div class="card border-warning mx-2" style="width: 18rem;">
-    <div class="card-header border-warning">Topping</div>
+    <div class="card-header border-warning d-flex justify-content-between">Topping
+        <a href="toppings?action=delete&id=<%=pizzaViewModel.getPizza().getId()%>"
+           type="button" class="btn-close" aria-label="Close"></a>
+    </div>
 
     <jsp:include page="pizza-layout.jsp"></jsp:include>
 
